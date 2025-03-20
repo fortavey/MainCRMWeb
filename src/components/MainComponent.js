@@ -9,6 +9,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import appsMobx from '../mobx/appsMobx';
 import { observer } from 'mobx-react-lite';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -44,6 +46,7 @@ const rows = [
 
 function MainComponent({fmList}) {
   return (
+    <>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
@@ -72,6 +75,10 @@ function MainComponent({fmList}) {
         </TableBody>
       </Table>
     </TableContainer>
+    {!appsMobx.list.length && <Box sx={{ display: 'flex', width: '100%', height: 300, alignItems:'center', justifyContent:'center' }}>
+      <CircularProgress />
+    </Box>}
+  </>
   );
 }
 
