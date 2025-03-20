@@ -1,0 +1,27 @@
+import React, {useEffect, useState} from 'react';
+import { observer } from 'mobx-react-lite';
+import appsMobx from './mobx/appsMobx.js';
+import MainComponent from './components/MainComponent.js';
+
+function updateList(){
+  let timeOutID = setTimeout(() => {
+    appsMobx.update()
+    updateList()
+    clearTimeout(timeOutID)
+  }, 15000)
+}
+
+function App() {  
+                
+  useEffect(() => {
+    updateList()
+  }, [])
+
+  return (
+    <div className="App">
+      <MainComponent />
+    </div>
+  );
+}
+
+export default observer(App);
