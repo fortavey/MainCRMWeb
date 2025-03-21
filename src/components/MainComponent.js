@@ -47,6 +47,7 @@ const rows = [
 function MainComponent({fmList}) {
   return (
     <>
+    <h3>Первая модерация</h3>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
@@ -60,7 +61,7 @@ function MainComponent({fmList}) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {appsMobx.list.filter(el => !el.isDone).map((row) => (
+          {appsMobx.listFM.filter(el => !el.isDone).map((row) => (
             <StyledTableRow key={row.firstAppName}>
               <StyledTableCell component="th" scope="row">
                 {row.firstAppName}
@@ -69,13 +70,47 @@ function MainComponent({fmList}) {
               <StyledTableCell align="left">{row.updateType}</StyledTableCell>
               <StyledTableCell align="left"><a href={row.driveLink} target='_blank'>Скачать</a></StyledTableCell>
               <StyledTableCell align="left">{row.message}</StyledTableCell>
-              <StyledTableCell align="left"><button onClick={() => appsMobx.change(row.id)}>Готово</button></StyledTableCell>
+              <StyledTableCell align="left"><button onClick={() => appsMobx.changeFM(row.id)}>Готово</button></StyledTableCell>
+            </StyledTableRow>
+          ))}
+        </TableBody>
+      </Table>
+
+      <h3>Переименование</h3>
+
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            {/* <StyledTableCell align="left">Название приложения</StyledTableCell> */}
+            <StyledTableCell align="left">ID приложения</StyledTableCell>
+            <StyledTableCell align="left">Новое название</StyledTableCell>
+            <StyledTableCell align="left">Локальные названия</StyledTableCell>
+            <StyledTableCell align="left">Доступные страны</StyledTableCell>
+            <StyledTableCell align="left">Аккаунт</StyledTableCell>
+            <StyledTableCell align="left">Комментарий</StyledTableCell>
+            <StyledTableCell align="left">Выполнение</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {appsMobx.listRN.filter(el => !el.isDone).map((row) => (
+            <StyledTableRow key={row.firstAppName}>
+              {/* <StyledTableCell component="th" scope="row">
+                {row.firstAppName}
+              </StyledTableCell> */}
+              <StyledTableCell align="left">{"com." + row.firstAppName.toLowerCase().split(" ").join("")}</StyledTableCell>
+              <StyledTableCell align="left">{row.newAppName}</StyledTableCell>
+              <StyledTableCell align="left">{row.localizations?.map(el => <div>{el}</div>)}</StyledTableCell>
+              <StyledTableCell align="left">{row.countries?.map(el => <div>{el}</div>)}</StyledTableCell>
+              <StyledTableCell align="left">{row.createAccount}</StyledTableCell>
+              <StyledTableCell align="left">{row.message}</StyledTableCell>
+              <StyledTableCell align="left"><button onClick={() => appsMobx.changeRN(row.id)}>Готово</button></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
-    {!appsMobx.list.length && <Box sx={{ display: 'flex', width: '100%', height: 300, alignItems:'center', justifyContent:'center' }}>
+
+    {!appsMobx.listFM.length && !appsMobx.listRN.length && <Box sx={{ display: 'flex', width: '100%', height: 300, alignItems:'center', justifyContent:'center' }}>
       <CircularProgress />
     </Box>}
   </>

@@ -5,7 +5,8 @@ import MainComponent from './components/MainComponent.js';
 
 function updateList(){
   let timeOutID = setTimeout(() => {
-    appsMobx.update()
+    appsMobx.updateFM()
+    appsMobx.updateRN()
     updateList()
     clearTimeout(timeOutID)
   }, 15000)
@@ -14,6 +15,8 @@ function updateList(){
 function App() {  
                 
   useEffect(() => {
+    appsMobx.updateFM()
+    appsMobx.updateRN()
     updateList()
   }, [])
 
