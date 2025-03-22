@@ -7,6 +7,7 @@ function updateList(){
   let timeOutID = setTimeout(() => {
     appsMobx.updateFM()
     appsMobx.updateRN()
+    appsMobx.updateCR()
     updateList()
     clearTimeout(timeOutID)
   }, 15000)
@@ -17,6 +18,7 @@ function App() {
   useEffect(() => {
     appsMobx.updateFM()
     appsMobx.updateRN()
+    appsMobx.updateCR()
     updateList()
   }, [])
 

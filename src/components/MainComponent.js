@@ -44,7 +44,8 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-function MainComponent({fmList}) {
+function MainComponent() {
+
   return (
     <>
     <h3>Первая модерация</h3>
@@ -76,38 +77,76 @@ function MainComponent({fmList}) {
         </TableBody>
       </Table>
 
-      <h3>Переименование</h3>
+      {appsMobx.listRN.length > 0 && appsMobx.listRN.some(el => !el.isDone) &&
+      <>
+        <h3>Переименование</h3>
 
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            {/* <StyledTableCell align="left">Название приложения</StyledTableCell> */}
-            <StyledTableCell align="left">ID приложения</StyledTableCell>
-            <StyledTableCell align="left">Новое название</StyledTableCell>
-            <StyledTableCell align="left">Локальные названия</StyledTableCell>
-            <StyledTableCell align="left">Доступные страны</StyledTableCell>
-            <StyledTableCell align="left">Аккаунт</StyledTableCell>
-            <StyledTableCell align="left">Комментарий</StyledTableCell>
-            <StyledTableCell align="left">Выполнение</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {appsMobx.listRN.filter(el => !el.isDone).map((row) => (
-            <StyledTableRow key={row.firstAppName}>
-              {/* <StyledTableCell component="th" scope="row">
-                {row.firstAppName}
-              </StyledTableCell> */}
-              <StyledTableCell align="left">{"com." + row.firstAppName.toLowerCase().split(" ").join("")}</StyledTableCell>
-              <StyledTableCell align="left">{row.newAppName}</StyledTableCell>
-              <StyledTableCell align="left">{row.localizations?.map(el => <div>{el}</div>)}</StyledTableCell>
-              <StyledTableCell align="left">{row.countries?.map(el => <div>{el}</div>)}</StyledTableCell>
-              <StyledTableCell align="left">{row.createAccount}</StyledTableCell>
-              <StyledTableCell align="left">{row.message}</StyledTableCell>
-              <StyledTableCell align="left"><button onClick={() => appsMobx.changeRN(row.id)}>Готово</button></StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
+        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              {/* <StyledTableCell align="left">Название приложения</StyledTableCell> */}
+              <StyledTableCell align="left">ID приложения</StyledTableCell>
+              <StyledTableCell align="left">Новое название</StyledTableCell>
+              <StyledTableCell align="left">Локальные названия</StyledTableCell>
+              <StyledTableCell align="left">Доступные страны</StyledTableCell>
+              <StyledTableCell align="left">Аккаунт</StyledTableCell>
+              <StyledTableCell align="left">Комментарий</StyledTableCell>
+              <StyledTableCell align="left">Выполнение</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {appsMobx.listRN.filter(el => !el.isDone).map((row) => (
+              <StyledTableRow key={row.firstAppName}>
+                {/* <StyledTableCell component="th" scope="row">
+                  {row.firstAppName}
+                </StyledTableCell> */}
+                <StyledTableCell align="left">{"com." + row.firstAppName.toLowerCase().split(" ").join("")}</StyledTableCell>
+                <StyledTableCell align="left">{row.newAppName}</StyledTableCell>
+                <StyledTableCell align="left">{row.localizations?.map(el => <div>{el}</div>)}</StyledTableCell>
+                <StyledTableCell align="left">{row.countries?.map(el => <div>{el}</div>)}</StyledTableCell>
+                <StyledTableCell align="left">{row.createAccount}</StyledTableCell>
+                <StyledTableCell align="left">{row.message}</StyledTableCell>
+                <StyledTableCell align="left"><button onClick={() => appsMobx.changeRN(row.id)}>Готово</button></StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </>
+      }
+
+      {appsMobx.listCR.length > 0 && appsMobx.listCR.some(el => !el.isDone) &&
+      <>
+        <h3>Креативы</h3>
+
+        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              {/* <StyledTableCell align="left">Название приложения</StyledTableCell> */}
+              <StyledTableCell align="left">ID приложения</StyledTableCell>
+              <StyledTableCell align="left">Новое название</StyledTableCell>
+              <StyledTableCell align="left">Локальные названия</StyledTableCell>
+              <StyledTableCell align="left">Аккаунт</StyledTableCell>
+              <StyledTableCell align="left">Ссылка</StyledTableCell>
+              <StyledTableCell align="left">Комментарий</StyledTableCell>
+              <StyledTableCell align="left">Выполнение</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {appsMobx.listCR.filter(el => !el.isDone).map((row) => (
+              <StyledTableRow key={row.firstAppName}>
+                <StyledTableCell align="left">{"com." + row.firstAppName.toLowerCase().split(" ").join("")}</StyledTableCell>
+                <StyledTableCell align="left">{row.newAppName}</StyledTableCell>
+                <StyledTableCell align="left">{row.localizations?.map(el => <div>{el}</div>)}</StyledTableCell>
+                <StyledTableCell align="left">{row.createAccount}</StyledTableCell>
+                <StyledTableCell align="left"><a href={row.creoLink} target='_blank'>Скачать креативы</a></StyledTableCell>
+                <StyledTableCell align="left">{row.message}</StyledTableCell>
+                <StyledTableCell align="left"><button onClick={() => appsMobx.changeCR(row.id)}>Готово</button></StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </>
+      }
     </TableContainer>
 
     {!appsMobx.listFM.length && !appsMobx.listRN.length && <Box sx={{ display: 'flex', width: '100%', height: 300, alignItems:'center', justifyContent:'center' }}>

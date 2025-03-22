@@ -10,13 +10,16 @@ const db = getFirestore(app);
 class AppsMobx {
   listFM = [];
   listRN = [];
+  listCR = [];
 
   constructor() {
     makeObservable(this, {
         listFM: observable,
         listRN: observable,
+        listCR: observable,
         updateFM: action,
         updateRN: action,
+        updateCR: action,
         changeFM: action,
         changeRN: action
     });
@@ -40,6 +43,15 @@ class AppsMobx {
     })
   }
 
+  async updateCR(){
+    await getDocs(collection(db, "taskcreo"))
+    .then((querySnapshot)=>{               
+        const newData = querySnapshot.docs
+            .map((doc) => ({...doc.data(), id:doc.id }));
+            this.listCR = newData
+    })
+  }
+
   async changeFM(id){
     const app = doc(db,'taskfirsmoderation', id)
     updateDoc(app, { isDone: true })
@@ -51,6 +63,13 @@ class AppsMobx {
     const app = doc(db,'taskrename', id)
     updateDoc(app, { isDone: true })
       .then(response =>  this.updateRN())
+      .catch(error => console.log(error.message))
+  }
+
+  async changeCR(id){
+    const app = doc(db,'taskcreo', id)
+    updateDoc(app, { isDone: true })
+      .then(response =>  this.updateCR())
       .catch(error => console.log(error.message))
   }
 }
