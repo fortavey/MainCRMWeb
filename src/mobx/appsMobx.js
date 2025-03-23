@@ -11,17 +11,22 @@ class AppsMobx {
   listFM = [];
   listRN = [];
   listCR = [];
+  listASO = [];
 
   constructor() {
     makeObservable(this, {
         listFM: observable,
         listRN: observable,
         listCR: observable,
+        listASO: observable,
         updateFM: action,
         updateRN: action,
         updateCR: action,
+        updateASO: action,
         changeFM: action,
-        changeRN: action
+        changeRN: action,
+        changeCR: action,
+        changeASO: action
     });
   }
 
@@ -52,6 +57,15 @@ class AppsMobx {
     })
   }
 
+  async updateASO(){
+    await getDocs(collection(db, "taskasomobile"))
+    .then((querySnapshot)=>{               
+        const newData = querySnapshot.docs
+            .map((doc) => ({...doc.data(), id:doc.id }));
+            this.listASO = newData
+    })
+  }
+
   async changeFM(id){
     const app = doc(db,'taskfirsmoderation', id)
     updateDoc(app, { isDone: true })
@@ -70,6 +84,13 @@ class AppsMobx {
     const app = doc(db,'taskcreo', id)
     updateDoc(app, { isDone: true })
       .then(response =>  this.updateCR())
+      .catch(error => console.log(error.message))
+  }
+
+  async changeASO(id){
+    const app = doc(db,'taskasomobile', id)
+    updateDoc(app, { isDone: true })
+      .then(response =>  this.updateASO())
       .catch(error => console.log(error.message))
   }
 }

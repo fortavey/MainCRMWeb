@@ -8,6 +8,7 @@ function updateList(){
     appsMobx.updateFM()
     appsMobx.updateRN()
     appsMobx.updateCR()
+    appsMobx.updateASO()
     updateList()
     clearTimeout(timeOutID)
   }, 15000)
@@ -19,6 +20,7 @@ function App() {
     appsMobx.updateFM()
     appsMobx.updateRN()
     appsMobx.updateCR()
+    appsMobx.updateASO()
     updateList()
   }, [])
 

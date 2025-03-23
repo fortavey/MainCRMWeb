@@ -48,6 +48,41 @@ function MainComponent() {
 
   return (
     <>
+
+      {appsMobx.listCR.length > 0 && appsMobx.listCR.some(el => !el.isDone) &&
+      <>
+        <h3>Креативы</h3>
+
+        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              {/* <StyledTableCell align="left">Название приложения</StyledTableCell> */}
+              <StyledTableCell align="left">ID приложения</StyledTableCell>
+              <StyledTableCell align="left">Новое название</StyledTableCell>
+              <StyledTableCell align="left">Локальные названия</StyledTableCell>
+              <StyledTableCell align="left">Аккаунт</StyledTableCell>
+              <StyledTableCell align="left">Ссылка</StyledTableCell>
+              <StyledTableCell align="left">Комментарий</StyledTableCell>
+              <StyledTableCell align="left">Выполнение</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {appsMobx.listCR.filter(el => !el.isDone).map((row) => (
+              <StyledTableRow key={row.firstAppName}>
+                <StyledTableCell align="left">{"com." + row.firstAppName.toLowerCase().split(" ").join("")}</StyledTableCell>
+                <StyledTableCell align="left">{row.newAppName}</StyledTableCell>
+                <StyledTableCell align="left">{row.localizations?.map(el => <div>{el}</div>)}</StyledTableCell>
+                <StyledTableCell align="left">{row.createAccount}</StyledTableCell>
+                <StyledTableCell align="left"><a href={row.creoLink} target='_blank'>Скачать креативы</a></StyledTableCell>
+                <StyledTableCell align="left">{row.message}</StyledTableCell>
+                <StyledTableCell align="left"><button onClick={() => appsMobx.changeCR(row.id)}>Готово</button></StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </>
+      }
+
     <h3>Первая модерация</h3>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -97,9 +132,6 @@ function MainComponent() {
           <TableBody>
             {appsMobx.listRN.filter(el => !el.isDone).map((row) => (
               <StyledTableRow key={row.firstAppName}>
-                {/* <StyledTableCell component="th" scope="row">
-                  {row.firstAppName}
-                </StyledTableCell> */}
                 <StyledTableCell align="left">{"com." + row.firstAppName.toLowerCase().split(" ").join("")}</StyledTableCell>
                 <StyledTableCell align="left">{row.newAppName}</StyledTableCell>
                 <StyledTableCell align="left">{row.localizations?.map(el => <div>{el}</div>)}</StyledTableCell>
@@ -114,39 +146,35 @@ function MainComponent() {
       </>
       }
 
-      {appsMobx.listCR.length > 0 && appsMobx.listCR.some(el => !el.isDone) &&
+      {appsMobx.listASO.length > 0 && appsMobx.listASO.some(el => !el.isDone) &&
       <>
-        <h3>Креативы</h3>
+        <h3>Добавление в ASOMobile</h3>
 
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              {/* <StyledTableCell align="left">Название приложения</StyledTableCell> */}
-              <StyledTableCell align="left">ID приложения</StyledTableCell>
-              <StyledTableCell align="left">Новое название</StyledTableCell>
-              <StyledTableCell align="left">Локальные названия</StyledTableCell>
-              <StyledTableCell align="left">Аккаунт</StyledTableCell>
-              <StyledTableCell align="left">Ссылка</StyledTableCell>
-              <StyledTableCell align="left">Комментарий</StyledTableCell>
+              <StyledTableCell align="left">Ссылка приложения</StyledTableCell>
+              <StyledTableCell align="left">Ключи</StyledTableCell>
               <StyledTableCell align="left">Выполнение</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {appsMobx.listCR.filter(el => !el.isDone).map((row) => (
+            {appsMobx.listASO.filter(el => !el.isDone).map((row) => (
               <StyledTableRow key={row.firstAppName}>
-                <StyledTableCell align="left">{"com." + row.firstAppName.toLowerCase().split(" ").join("")}</StyledTableCell>
-                <StyledTableCell align="left">{row.newAppName}</StyledTableCell>
-                <StyledTableCell align="left">{row.localizations?.map(el => <div>{el}</div>)}</StyledTableCell>
-                <StyledTableCell align="left">{row.createAccount}</StyledTableCell>
-                <StyledTableCell align="left"><a href={row.creoLink} target='_blank'>Скачать креативы</a></StyledTableCell>
-                <StyledTableCell align="left">{row.message}</StyledTableCell>
-                <StyledTableCell align="left"><button onClick={() => appsMobx.changeCR(row.id)}>Готово</button></StyledTableCell>
+                <StyledTableCell align="left">
+                  <a href={row.appLink} target='_blank'>
+                    Открыть приложение
+                  </a>
+                </StyledTableCell>
+                <StyledTableCell align="left">{row.keys.map(el => <div>{el}</div>)}</StyledTableCell>
+                <StyledTableCell align="left"><button onClick={() => appsMobx.changeASO(row.id)}>Готово</button></StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
         </Table>
       </>
       }
+
     </TableContainer>
 
     {!appsMobx.listFM.length && !appsMobx.listRN.length && <Box sx={{ display: 'flex', width: '100%', height: 300, alignItems:'center', justifyContent:'center' }}>
