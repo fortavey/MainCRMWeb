@@ -32,18 +32,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 function MainComponent() {
 
   return (
@@ -85,6 +73,51 @@ function MainComponent() {
       }
 
     
+
+
+      {appsMobx.listTR.length > 0 && appsMobx.listTR.some(el => !el.isDone) &&
+      <>
+        <h3>Трансфер приложения</h3>
+        <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              {/* <StyledTableCell align="left">Название приложения</StyledTableCell> */}
+              <StyledTableCell align="left">ID приложения</StyledTableCell>
+              <StyledTableCell align="left">Данные текущего аккаунта</StyledTableCell>
+              <StyledTableCell align="left"></StyledTableCell>
+              <StyledTableCell align="left">Данные аккаунта трансфера</StyledTableCell>
+              <StyledTableCell align="left">Выполнение</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {appsMobx.listTR.filter(el => !el.isDone).map((row) => (
+              <StyledTableRow key={row.appId}>
+                <StyledTableCell align="left">{row.appId}</StyledTableCell>
+                <StyledTableCell align="left">
+                  <div>{row.createAccountName}</div>
+                  <div>{row.createAccountCompany}</div>
+                  <div>{row.createAccountIdentifier}</div>
+                  <div>{row.createAccountToken}</div>
+                </StyledTableCell>
+                <StyledTableCell align="left"> {`------>>>`} </StyledTableCell>
+                <StyledTableCell align="left">
+                  <div>{row.transferAccountName}</div>
+                  <div>{row.transferAccountCompany}</div>
+                  <div>{row.transferAccountIdentifier}</div>
+                  <div>{row.transferAccountToken}</div>
+                </StyledTableCell>
+                <StyledTableCell align="left"><button onClick={() => appsMobx.changeCR(row.id)}>Готово</button></StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+        </TableContainer>
+      </>
+      }
+
+
+
 
       {appsMobx.listRN.length > 0 && appsMobx.listRN.some(el => !el.isDone) &&
       <>
