@@ -52,7 +52,7 @@ function MainComponent() {
       {appsMobx.listCR.length > 0 && appsMobx.listCR.some(el => !el.isDone) &&
       <>
         <h3>Креативы</h3>
-
+        <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
@@ -80,42 +80,16 @@ function MainComponent() {
             ))}
           </TableBody>
         </Table>
+        </TableContainer>
       </>
       }
 
-    <h3>Первая модерация</h3>
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Название приложения</StyledTableCell>
-            <StyledTableCell align="left">Аккаунт</StyledTableCell>
-            <StyledTableCell align="left">Тип обновления</StyledTableCell>
-            <StyledTableCell align="left">Исходники</StyledTableCell>
-            <StyledTableCell align="left">Комментарий</StyledTableCell>
-            <StyledTableCell align="left">Выполнение</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {appsMobx.listFM.filter(el => !el.isDone).map((row) => (
-            <StyledTableRow key={row.firstAppName}>
-              <StyledTableCell component="th" scope="row">
-                {row.firstAppName}
-              </StyledTableCell>
-              <StyledTableCell align="left">{row.createAccount}</StyledTableCell>
-              <StyledTableCell align="left">{row.updateType}</StyledTableCell>
-              <StyledTableCell align="left"><a href={row.driveLink} target='_blank'>Скачать</a></StyledTableCell>
-              <StyledTableCell align="left">{row.message}</StyledTableCell>
-              <StyledTableCell align="left"><button onClick={() => appsMobx.changeFM(row.id)}>Готово</button></StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
+    
 
       {appsMobx.listRN.length > 0 && appsMobx.listRN.some(el => !el.isDone) &&
       <>
         <h3>Переименование</h3>
-
+        <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
@@ -143,13 +117,14 @@ function MainComponent() {
             ))}
           </TableBody>
         </Table>
+        </TableContainer>
       </>
       }
 
       {appsMobx.listASO.length > 0 && appsMobx.listASO.some(el => !el.isDone) &&
       <>
         <h3>Добавление в ASOMobile</h3>
-
+        <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
@@ -172,8 +147,38 @@ function MainComponent() {
             ))}
           </TableBody>
         </Table>
+        </TableContainer>
       </>
       }
+
+<h3>Первая модерация</h3>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>Название приложения</StyledTableCell>
+            <StyledTableCell align="left">Аккаунт</StyledTableCell>
+            <StyledTableCell align="left">Тип обновления</StyledTableCell>
+            <StyledTableCell align="left">Исходники</StyledTableCell>
+            <StyledTableCell align="left">Комментарий</StyledTableCell>
+            <StyledTableCell align="left">Выполнение</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {appsMobx.listFM.filter(el => !el.isDone).map((row) => (
+            <StyledTableRow key={row.firstAppName}>
+              <StyledTableCell component="th" scope="row">
+                {row.firstAppName}
+              </StyledTableCell>
+              <StyledTableCell align="left">{row.createAccount}</StyledTableCell>
+              <StyledTableCell align="left">{row.updateType}</StyledTableCell>
+              <StyledTableCell align="left"><a href={row.driveLink} target='_blank'>Скачать</a></StyledTableCell>
+              <StyledTableCell align="left">{row.message}</StyledTableCell>
+              <StyledTableCell align="left"><button onClick={() => appsMobx.changeFM(row.id)}>Готово</button></StyledTableCell>
+            </StyledTableRow>
+          ))}
+        </TableBody>
+      </Table>
 
     </TableContainer>
 
