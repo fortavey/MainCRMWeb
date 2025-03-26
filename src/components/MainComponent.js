@@ -107,7 +107,7 @@ function MainComponent() {
                   <div>{row.transferAccountIdentifier}</div>
                   <div>{row.transferAccountToken}</div>
                 </StyledTableCell>
-                <StyledTableCell align="left"><button onClick={() => appsMobx.changeCR(row.id)}>Готово</button></StyledTableCell>
+                <StyledTableCell align="left"><button onClick={() => appsMobx.changeTR(row.id)}>Готово</button></StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
