@@ -62,7 +62,15 @@ class AppsMobx {
         .then((querySnapshot)=>{               
             const newData = querySnapshot.docs
                 .map((doc) => ({...doc.data(), id:doc.id }));
-                this.listFM = newData
+                this.listFM = newData.sort(( a, b ) => {
+                  if ( a.timestamp < b.timestamp ){
+                    return -1;
+                  }
+                  if ( a.timestamp > b.timestamp ){
+                    return 1;
+                  }
+                  return 0;
+                })
         })
   }
 
