@@ -8,6 +8,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 class AppsMobx {
+  appList = [];
   listFM = [];
   listRN = [];
   listCR = [];
@@ -16,11 +17,13 @@ class AppsMobx {
 
   constructor() {
     makeObservable(this, {
+        appList: observable,
         listFM: observable,
         listRN: observable,
         listCR: observable,
         listASO: observable,
         listTR: observable,
+        updateAppList: action,
         updateFM: action,
         updateRN: action,
         updateCR: action,
@@ -32,6 +35,26 @@ class AppsMobx {
         changeASO: action,
         changeTR: action
     });
+  }
+
+  async updateAppList(){
+    await getDocs(collection(db, "apps"))
+        .then((querySnapshot)=>{               
+            const newData = querySnapshot.docs
+                .map((doc) => ({...doc.data(), id:doc.id }));
+                this.appList = newData
+                .filter(el => !el.isBan)
+                .filter(el => el.newAppName)
+                .sort(( a, b ) => {
+                  if ( a.newAppName < b.newAppName ){
+                    return -1;
+                  }
+                  if ( a.newAppName > b.newAppName ){
+                    return 1;
+                  }
+                  return 0;
+                })
+        })
   }
 
   async updateFM(){
