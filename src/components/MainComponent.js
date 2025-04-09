@@ -11,6 +11,8 @@ import appsMobx from '../mobx/appsMobx';
 import { observer } from 'mobx-react-lite';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import LineComponent from './LineComponent';
+import Button from '@mui/material/Button';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -63,7 +65,7 @@ function MainComponent() {
                 <StyledTableCell align="left">{row.createAccount}</StyledTableCell>
                 <StyledTableCell align="left"><a href={row.creoLink} target='_blank'>Скачать креативы</a></StyledTableCell>
                 <StyledTableCell align="left">{row.message}</StyledTableCell>
-                <StyledTableCell align="left"><button onClick={() => appsMobx.changeCR(row.id)}>Готово</button></StyledTableCell>
+                <StyledTableCell align="left"><Button variant="contained" onClick={() => appsMobx.changeCR(row.id)}>Готово</Button></StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
@@ -107,7 +109,7 @@ function MainComponent() {
                   <div>{row.transferAccountIdentifier}</div>
                   <div>{row.transferAccountToken}</div>
                 </StyledTableCell>
-                <StyledTableCell align="left"><button onClick={() => appsMobx.changeTR(row.id)}>Готово</button></StyledTableCell>
+                <StyledTableCell align="left"><Button variant="contained" onClick={() => appsMobx.changeTR(row.id)}>Готово</Button></StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
@@ -145,7 +147,7 @@ function MainComponent() {
                 <StyledTableCell align="left">{row.countries?.map(el => <div>{el}</div>)}</StyledTableCell>
                 <StyledTableCell align="left">{row.createAccount}</StyledTableCell>
                 <StyledTableCell align="left">{row.message}</StyledTableCell>
-                <StyledTableCell align="left"><button onClick={() => appsMobx.changeRN(row.id)}>Готово</button></StyledTableCell>
+                <StyledTableCell align="left"><Button variant="contained" onClick={() => appsMobx.changeRN(row.id)}>Готово</Button></StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
@@ -175,7 +177,7 @@ function MainComponent() {
                   </a>
                 </StyledTableCell>
                 <StyledTableCell align="left">{row.keys.map(el => <div>{el}</div>)}</StyledTableCell>
-                <StyledTableCell align="left"><button onClick={() => appsMobx.changeASO(row.id)}>Готово</button></StyledTableCell>
+                <StyledTableCell align="left"><Button variant="contained" onClick={() => appsMobx.changeASO(row.id)}>Готово</Button></StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
@@ -199,16 +201,7 @@ function MainComponent() {
         </TableHead>
         <TableBody>
           {appsMobx.listFM.filter(el => !el.isDone).map((row) => (
-            <StyledTableRow key={row.firstAppName}>
-              <StyledTableCell component="th" scope="row">
-                {row.firstAppName}
-              </StyledTableCell>
-              <StyledTableCell align="left">{row.createAccount}</StyledTableCell>
-              <StyledTableCell align="left">{row.updateType}</StyledTableCell>
-              <StyledTableCell align="left"><a href={row.driveLink} target='_blank'>Скачать</a></StyledTableCell>
-              <StyledTableCell align="left">{row.message}</StyledTableCell>
-              <StyledTableCell align="left"><button onClick={() => appsMobx.changeFM(row.id)}>Готово</button></StyledTableCell>
-            </StyledTableRow>
+            <LineComponent row={row} />
           ))}
         </TableBody>
       </Table>
