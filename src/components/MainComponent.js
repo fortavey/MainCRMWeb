@@ -186,7 +186,7 @@ function MainComponent() {
       </>
       }
 
-<h3>Первая модерация</h3>
+<h3>Первая модерация A.TRUST</h3>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
@@ -200,12 +200,44 @@ function MainComponent() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {appsMobx.listFM.filter(el => !el.isDone).map((row) => (
+          {appsMobx.listFM.filter(el => !el.isDone).filter(app => {
+            const regex = new RegExp("A.TRUST*");
+            if(regex.test(app.createAccount)) {
+              return true
+            }
+            return false
+          }).map((row) => (
             <LineComponent row={row} />
           ))}
         </TableBody>
       </Table>
+    </TableContainer>
 
+    <h3>Первая модерация S.FARM</h3>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>Название приложения</StyledTableCell>
+            <StyledTableCell align="left">Аккаунт</StyledTableCell>
+            <StyledTableCell align="left">Тип обновления</StyledTableCell>
+            <StyledTableCell align="left">Исходники</StyledTableCell>
+            <StyledTableCell align="left">Комментарий</StyledTableCell>
+            <StyledTableCell align="left">Выполнение</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {appsMobx.listFM.filter(el => !el.isDone).filter(app => {
+            const regex = new RegExp("S.FARM*");
+            if(regex.test(app.createAccount)) {
+              return true
+            }
+            return false
+          }).map((row) => (
+            <LineComponent row={row} />
+          ))}
+        </TableBody>
+      </Table>
     </TableContainer>
 
     {!appsMobx.listFM.length && !appsMobx.listRN.length && <Box sx={{ display: 'flex', width: '100%', height: 300, alignItems:'center', justifyContent:'center' }}>
