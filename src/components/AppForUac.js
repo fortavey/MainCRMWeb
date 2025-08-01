@@ -45,7 +45,7 @@ function getPlayStoreLink(appName){
     return `https://play.google.com/store/apps/details?id=com.${name}`
 }
 
-function AppListComponent() {
+function AppForUac() {
 
   return (
     <>
@@ -62,6 +62,12 @@ function AppListComponent() {
         </TableHead>
         <TableBody>
           {appsMobx.appList
+          .filter(app => {
+            if(app.updateStatus == 'Добавлено Webview' || app.updateStatus == 'Готово') return true
+          })
+          .filter(app => {
+            if(app.moderationStatus == 'Ожидание публикации' || app.moderationStatus == 'Одобрено') return true
+          })
           .map((row) => (
             <StyledTableRow key={row.firstAppName}>
               <StyledTableCell component="th" scope="row">
@@ -90,4 +96,4 @@ function AppListComponent() {
   );
 }
 
-export default observer(AppListComponent)
+export default observer(AppForUac)
