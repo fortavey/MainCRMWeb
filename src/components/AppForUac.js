@@ -62,6 +62,7 @@ function AppForUac() {
         </TableHead>
         <TableBody>
           {appsMobx.appList
+          .filter(app => !app.isUAC)
           .filter(app => {
             if(app.updateStatus == 'Добавлено Webview' || app.updateStatus == 'Готово') return true
           })
