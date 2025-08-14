@@ -57,6 +57,7 @@ function AppForUac() {
             <StyledTableCell>Бренд</StyledTableCell>
             <StyledTableCell align="left">Тип обновления</StyledTableCell>
             <StyledTableCell align="left">Статус обновления</StyledTableCell>
+            <StyledTableCell align="left">Трансфер</StyledTableCell>
             <StyledTableCell align="left">Ссылка</StyledTableCell>
           </TableRow>
         </TableHead>
@@ -64,11 +65,12 @@ function AppForUac() {
           {appsMobx.appList
           .filter(app => !app.isUAC)
           .filter(app => {
-            if(app.updateStatus == 'Добавлено Webview' || app.updateStatus == 'Готово') return true
+            if(app.updateStatus == 'Добавлено Webview') return true
           })
           .filter(app => {
-            if(app.moderationStatus == 'Ожидание публикации' || app.moderationStatus == 'Одобрено') return true
+            if(app.moderationStatus == 'Ожидание публикации') return true
           })
+          .filter(app => app.isTransfer)
           .map((row) => (
             <StyledTableRow key={row.firstAppName}>
               <StyledTableCell component="th" scope="row">
@@ -81,6 +83,9 @@ function AppForUac() {
                 {row.moderationStatus}
               </StyledTableCell>
               <StyledTableCell align="left">
+                {row.isTransfer && <img src='https://cdn4.iconfinder.com/data/icons/materia-flat-arrows-symbols-vol-6/24/018_282_ok_done_check_finished-512.png' alt='icon' style={{width:30}} />}
+              </StyledTableCell>
+               <StyledTableCell align="left">
                 <a href={getPlayStoreLink(row.firstAppName)} target='_blank'>Открыть в GooglePlay</a>
               </StyledTableCell>
             </StyledTableRow>
