@@ -62,6 +62,7 @@ function AppListComponent() {
         </TableHead>
         <TableBody>
           {appsMobx.appList
+          .filter(el => !el.isBan)
           .map((row) => (
             <StyledTableRow key={row.firstAppName}>
               <StyledTableCell component="th" scope="row">
