@@ -6,6 +6,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import AppListComponent from './components/AppListComponent.js';
 import AppForUac from './components/AppForUac.js';
+import TransfersComponent from './components/TransfersComponent.js';
 import HelpersComponent from './components/HelpersComponent.js';
 
 function updateList(){
@@ -39,6 +40,7 @@ function App() {
     if(isTasks == 'MainComponent') return <MainComponent />
     if(isTasks == 'AppListComponent') return <AppListComponent />
     if(isTasks == 'AppForUac') return <AppForUac />
+    if(isTasks == 'TransfersComponent') return <TransfersComponent />
     if(isTasks == 'HelpersComponent') return <HelpersComponent />
     return <></>
   }
@@ -49,6 +51,7 @@ function App() {
         <Button variant="outlined" onClick={() => setIsTasks('MainComponent')}>Список задач</Button>
         <Button variant="outlined" onClick={() => setIsTasks('AppListComponent')}>Список приложений</Button>
         <Button variant="outlined" onClick={() => setIsTasks('AppForUac')}>Под UAC</Button>
+        <Button variant="outlined" onClick={() => setIsTasks('TransfersComponent')}>Трансферы</Button>
         <Button variant="outlined" onClick={() => setIsTasks('HelpersComponent')}>Настройки</Button>
       </Stack>
       {routing()}
