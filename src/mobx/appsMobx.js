@@ -12,7 +12,7 @@ class AppsMobx {
   appList = [];
   listFM = [];
   listRN = [];
-  listCR = [];
+  listTO = [];
   listASO = [];
   listTR = [];
 
@@ -22,18 +22,18 @@ class AppsMobx {
         appList: observable,
         listFM: observable,
         listRN: observable,
-        listCR: observable,
+        listTO: observable,
         listASO: observable,
         listTR: observable,
         updateAppList: action,
         updateFM: action,
         updateRN: action,
-        updateCR: action,
+        updateTO: action,
         updateASO: action,
         updateTR: action,
         changeFM: action,
         changeRN: action,
-        changeCR: action,
+        changeTO: action,
         changeASO: action,
         changeTR: action
     });
@@ -94,12 +94,12 @@ class AppsMobx {
     })
   }
 
-  async updateCR(){
-    await getDocs(collection(db, "taskcreo"))
+  async updateTO(){
+    await getDocs(collection(db, "taskturnon"))
     .then((querySnapshot)=>{               
         const newData = querySnapshot.docs
             .map((doc) => ({...doc.data(), id:doc.id }));
-            this.listCR = newData
+            this.listTO = newData
     })
   }
 
@@ -136,10 +136,10 @@ class AppsMobx {
       .catch(error => console.log(error.message))
   }
 
-  async changeCR(id){
-    const app = doc(db,'taskcreo', id)
+  async changeTO(id){
+    const app = doc(db,'taskturnon', id)
     updateDoc(app, { isDone: true })
-      .then(response =>  this.updateCR())
+      .then(response =>  this.updateTO())
       .catch(error => console.log(error.message))
   }
 

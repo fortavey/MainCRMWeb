@@ -11,7 +11,7 @@ function HelpersComponent() {
     const [brend, setBrend] = React.useState('')
 
     const getSelfAlias = () => {
-        const element = appsMobx.selfList.find(el => el.company == name)
+        const element = appsMobx.selfList.find(el => el.company.includes(name))
         if(element) setAlias(element.alias)
         else setAlias('Нет такого')
     }
