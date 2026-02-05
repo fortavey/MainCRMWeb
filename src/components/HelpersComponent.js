@@ -9,17 +9,91 @@ function HelpersComponent() {
     const [appID, setAppID] = React.useState('ID приложения')
     const [alias, setAlias] = React.useState('')
     const [brend, setBrend] = React.useState('')
+    const [longString, setLongString] = React.useState('')
+    const [output, setOutput] = React.useState([])
 
     const getSelfAlias = () => {
-        const element = appsMobx.selfList.find(el => el.company.includes(name))
-        if(element) setAlias(element.alias)
-        else setAlias('Нет такого')
+        const elements = appsMobx.selfList.filter(el => el.company.includes(name))
+        let res = ""
+        if(elements.length) {
+            elements.forEach(e => {
+                res = res + " - " + e.alias
+            })
+        }else {
+            res = "Нет такого"
+        }
+        setAlias(res)
     }
 
     const getBrend = () => {
         const element = appsMobx.appList.find(el => el.firstAppName.toLowerCase() == appID)
         if(element) setBrend(element.newAppName)
         else setBrend('Нет такого')
+    }
+
+
+    const parseApps = () => {
+        const elements = appsMobx.appList.map(app => (
+            {
+                appId: 'com.' + app.firstAppName.toLowerCase(),
+                brend: app.newAppName
+            }
+        ))
+
+        const startArr = longString.split('+++')
+        const defaultArr = startArr.map(el => el.split(';'))
+        let brendsArr = []
+        let brendSortedArr = []
+
+        brendsArr = defaultArr.map(el => {
+            const brend = elements.filter(app => app.appId == el[1])
+            
+            return [el[0], brend[0].brend, el[2]]
+        })
+
+        brendsArr.forEach(item => {
+            const oneItem = brendSortedArr.find(el => el.brend == item[1])
+            if(oneItem) {
+                oneItem.arr.push([item[0], item[2]])
+            }else {
+                brendSortedArr.push({
+                    brend: item[1],
+                    arr: [[item[0], item[2]]]
+                })
+            }
+        })
+
+        brendSortedArr.forEach(el => {
+            el.arr = mergeCountries(el.arr)
+        })
+        
+        setOutput(brendSortedArr)
+    }
+
+    const mergeCountries = (arr) => {
+        const newArr = []
+
+        arr.forEach(item => {
+            const itemOfArr = newArr.find(el => el[0] == item[0])
+            if(itemOfArr){
+                const first = itemOfArr[1]
+                const second = item[1].split(",").join("")
+                itemOfArr[1] = parseInt(first) + parseInt(second)
+            }else {
+                newArr.push([item[0], item[1].split(",").join("")])
+            }
+        })
+
+
+        return newArr
+    }
+
+    const renderBrend = () => {
+        return output.map(el => <div><strong>{el.brend}</strong><br/>{renderClicks(el.arr)}</div>)
+    }
+
+    const renderClicks = (arr) => {
+        return arr.sort((a, b) => b[1] - a[1]).map(el => <div style={{paddingLeft:20}}>{el[0] + " - " + el[1]}</div>)
     }
 
   return (
@@ -48,6 +122,19 @@ function HelpersComponent() {
             />
             <Button variant="outlined" onClick={getBrend}>Старт</Button>
         </div>
+        <h3>Парсер приложений кейтары</h3>
+        <div style={styles.div}>
+            <TextField
+            required
+            id="outlined-required"
+            label="Строка из кейтары"
+            defaultValue={longString}
+            value={longString}
+            onChange={(e) => setLongString(e.target.value)}
+            />
+            <Button variant="outlined" onClick={parseApps}>Старт</Button>
+        </div>
+        {renderBrend()}
     </>
   );
 }

@@ -156,6 +156,13 @@ class AppsMobx {
       .then(response =>  this.updateTR())
       .catch(error => console.log(error.message))
   }
+
+  async changeIsUac(id){
+    const app = doc(db,'apps', id)
+    updateDoc(app, { isUAC: true })
+      .then(response =>  this.updateAppList())
+      .catch(error => console.log(error.message))
+  }
 }
 
 const appsMobx = new AppsMobx();

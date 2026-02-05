@@ -11,6 +11,7 @@ import appsMobx from '../mobx/appsMobx';
 import { observer } from 'mobx-react-lite';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import { Button } from '@mui/material';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -45,6 +46,13 @@ function getPlayStoreLink(appName){
     return `https://play.google.com/store/apps/details?id=com.${name}`
 }
 
+function isValidForUAC(row){
+  if(row.updateStatus == 'Готово'){
+    return true
+  }
+  return false
+}
+
 function AppForUac() {
 
   return (
@@ -59,6 +67,8 @@ function AppForUac() {
             <StyledTableCell align="left">Статус обновления</StyledTableCell> */}
             <StyledTableCell align="left">Трансфер</StyledTableCell>
             <StyledTableCell align="left">Ссылка</StyledTableCell>
+            <StyledTableCell align="left">Firebase</StyledTableCell>
+            <StyledTableCell align="left">Действие</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -90,6 +100,14 @@ function AppForUac() {
               </StyledTableCell>
                <StyledTableCell align="left">
                 <a href={getPlayStoreLink(row.firstAppName)} target='_blank'>Открыть в GooglePlay</a>
+              </StyledTableCell>
+              <StyledTableCell align="left" style={{backgroundColor: getColor(row.moderationStatus)}}>
+                {isValidForUAC(row) ? row.transferAccount : ""}
+              </StyledTableCell>
+              <StyledTableCell align="left">
+                {isValidForUAC(row) ? <Button variant="contained" onClick={() => appsMobx.changeIsUac(row.id)}>
+                  Забрал под UAC
+                </Button> : ""}
               </StyledTableCell>
             </StyledTableRow>
           ))}
