@@ -9,6 +9,7 @@ import AppListComponent from './components/AppListComponent.js';
 import AppForUac from './components/AppForUac.js';
 import TransfersComponent from './components/TransfersComponent.js';
 import HelpersComponent from './components/HelpersComponent.js';
+import AnaliticsComponent from './components/AnaliticsComponent.js';
 
 function updateList(){
   let timeOutID = setTimeout(() => {
@@ -18,6 +19,7 @@ function updateList(){
     appsMobx.updateTO()
     appsMobx.updateASO()
     appsMobx.updateTR()
+    appsMobx.updateBrendsList()
     updateList()
     clearTimeout(timeOutID)
   }, 15000)
@@ -34,6 +36,7 @@ function App() {
     appsMobx.updateTO()
     appsMobx.updateASO()
     appsMobx.updateTR()
+    appsMobx.updateBrendsList()
     updateList()
   }, [])
 
@@ -44,6 +47,7 @@ function App() {
     if(isTasks == 'AppForUac') return <AppForUac />
     if(isTasks == 'TransfersComponent') return <TransfersComponent />
     if(isTasks == 'HelpersComponent') return <HelpersComponent />
+    if(isTasks == 'AnaliticsComponent') return <AnaliticsComponent />
     return <></>
   }
 
@@ -56,6 +60,7 @@ function App() {
         <Button variant="outlined" onClick={() => setIsTasks('AppForUac')}>Под UAC</Button>
         <Button variant="outlined" onClick={() => setIsTasks('TransfersComponent')}>Трансферы</Button>
         <Button variant="outlined" onClick={() => setIsTasks('HelpersComponent')}>Настройки</Button>
+        <Button variant="outlined" onClick={() => setIsTasks('AnaliticsComponent')}>Аналитика</Button>
       </Stack>
       {routing()}
     </div>

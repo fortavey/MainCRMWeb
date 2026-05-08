@@ -10,6 +10,7 @@ const db = getFirestore(app);
 class AppsMobx {
   selfList = [];
   appList = [];
+  brendsList = [];
   listFM = [];
   listRN = [];
   listTO = [];
@@ -20,6 +21,7 @@ class AppsMobx {
     makeObservable(this, {
         selfList: observable,
         appList: observable,
+        brendsList: observable,
         listFM: observable,
         listRN: observable,
         listTO: observable,
@@ -45,6 +47,15 @@ class AppsMobx {
             const newData = querySnapshot.docs
                 .map((doc) => ({...doc.data(), id:doc.id }));
                 this.selfList = newData
+        })
+  }
+
+  async updateBrendsList(){
+    await getDocs(collection(db, "brends"))
+        .then((querySnapshot)=>{               
+            const newData = querySnapshot.docs
+                .map((doc) => ({...doc.data(), id:doc.id }));
+                this.brendsList = newData
         })
   }
 
