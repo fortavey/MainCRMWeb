@@ -47,7 +47,24 @@ function AnaliticsComponent() {
         newArr = newArr.filter(arr => arr.includes(code.toLowerCase()))
         newArr = newArr.sort((a, b) => a[0] - b[0]).reverse();
 
-        return newArr.map(arr => arr[2]).join(", ")
+        return newArr.map(arr => [arr[2], arr[0]])
+    }
+
+    function getStructuredView(arr){
+        var timestamp = Number(`${arr[1]}000`)
+        var date = new Date(timestamp)
+
+        return (
+            <div key={timestamp} style={{borderRight: "1px solid black", paddingRight: 5, paddingLeft: 5}}>
+                <div style={{fontSize: 8}}>{date.getDate()}.{getMonth(date.getMonth())}</div>
+                <div style={{textAlign:'center'}}>{arr[0]}</div>
+            </div>
+        )
+    }
+
+    function getMonth(month){
+        if(month < 10) return "0" + (month + 1)
+        return (month + 1)
     }
 
   return (
@@ -56,7 +73,7 @@ function AnaliticsComponent() {
 
     {
     [1,2,3,4,5,6,7,8,9,10].map(cluster => (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} key={cluster}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
             <TableRow>
@@ -67,16 +84,16 @@ function AnaliticsComponent() {
             <TableBody>
 
                 { appsMobx.brendsList.filter(brend => brend.limitCounter == cluster && brend.isFavorite).map(brend => (
-                <StyledTableRow key={cluster}>
+                <StyledTableRow key={brend.name}>
                     <StyledTableCell component="th" scope="row">
                         <div>{brend.name}</div>
                     </StyledTableCell>
                     <StyledTableCell align="left">
                         {
                             brend.countries?.length && brend.countries.map(code => (
-                                <div>
-                                    {code} - {}
-                                    {getPositions(brend.analiticsArray, code)}
+                                <div style={{display: "flex", alignItems: "center", paddingBottom:5}}>
+                                    {code} - { }
+                                    {getPositions(brend.analiticsArray, code).map(el => getStructuredView(el))}
                                 </div>
                             ))
                         }

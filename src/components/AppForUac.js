@@ -76,25 +76,13 @@ function AppForUac() {
           .filter(el => !el.isBan)
           .filter(app => !app.isUAC)
           .filter(app => {
-            if(app.updateStatus == 'Добавлено Webview') return true
             if(app.updateStatus == 'Готово') return true
           })
-          .filter(app => {
-            if(app.moderationStatus == 'Ожидание публикации') return true
-            if(app.moderationStatus == 'Одобрено') return true
-          })
-          .filter(app => app.isTransfer)
           .map((row) => (
             <StyledTableRow key={row.firstAppName}>
               <StyledTableCell component="th" scope="row">
                 <strong>{row.newAppName}</strong>
               </StyledTableCell>
-              {/* <StyledTableCell align="left" style={{backgroundColor: getColor(row.moderationStatus)}}>
-                {row.updateStatus}
-                </StyledTableCell>
-              <StyledTableCell align="left" style={{backgroundColor: getColor(row.moderationStatus)}}>
-                {row.moderationStatus}
-              </StyledTableCell> */}
               <StyledTableCell align="left">
                 {row.isTransfer && <img src='https://cdn4.iconfinder.com/data/icons/materia-flat-arrows-symbols-vol-6/24/018_282_ok_done_check_finished-512.png' alt='icon' style={{width:30}} />}
               </StyledTableCell>
