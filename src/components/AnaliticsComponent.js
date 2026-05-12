@@ -42,7 +42,7 @@ function AnaliticsComponent() {
                 return str.split("*")
             })
         }else {
-            return ""
+            return []
         }
         newArr = newArr.filter(arr => arr.includes(code.toLowerCase()))
         newArr = newArr.sort((a, b) => a[0] - b[0]).reverse();
