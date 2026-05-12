@@ -90,9 +90,9 @@ function AnaliticsComponent() {
                     </StyledTableCell>
                     <StyledTableCell align="left">
                         {
-                            brend.countries?.length && brend.countries.map(code => (
-                                <div style={{display: "flex", alignItems: "center", paddingBottom:5}}>
-                                    {code} - { }
+                            brend.countries?.length && brend.countries.map((code, idx) => (
+                                <div style={{display: "flex", alignItems: "center", paddingBottom:3,paddingTop:3, borderBottom: "1px solid black", borderTop: idx == 0 ? "1px solid black" : "none"}}>
+                                    <div style={{border: "1px solid black", padding:2, width: 20, textAlign:'center'}}>{code}</div>
                                     {getPositions(brend.analiticsArray, code).map(el => getStructuredView(el))}
                                 </div>
                             ))
