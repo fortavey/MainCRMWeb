@@ -45,7 +45,7 @@ function App() {
     if(isTasks == 'MainComponent2') return <MainComponent2 />
     if(isTasks == 'AppListComponent') return <AppListComponent />
     if(isTasks == 'AppForUac') return <AppForUac />
-    if(isTasks == 'TransfersComponent') return <TransfersComponent />
+    // if(isTasks == 'TransfersComponent') return <TransfersComponent />
     if(isTasks == 'HelpersComponent') return <HelpersComponent />
     if(isTasks == 'AnaliticsComponent') return <AnaliticsComponent />
     return <></>
@@ -58,7 +58,7 @@ function App() {
         <Button variant="outlined" onClick={() => setIsTasks('MainComponent2')}>Задачи Саша</Button>
         <Button variant="outlined" onClick={() => setIsTasks('AppListComponent')}>Список приложений</Button>
         <Button variant="outlined" onClick={() => setIsTasks('AppForUac')}>Под UAC</Button>
-        <Button variant="outlined" onClick={() => setIsTasks('TransfersComponent')}>Трансферы</Button>
+        {/* <Button variant="outlined" onClick={() => setIsTasks('TransfersComponent')}>Трансферы</Button> */}
         <Button variant="outlined" onClick={() => setIsTasks('HelpersComponent')}>Настройки</Button>
         <Button variant="outlined" onClick={() => setIsTasks('AnaliticsComponent')}>Аналитика</Button>
       </Stack>
