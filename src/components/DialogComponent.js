@@ -36,6 +36,7 @@ export default function DialogComponent({brend, resetBrend, open, setOpen}) {
   const handleClose = () => {
     resetBrend(null)
     setOpen(false);
+    setChecked(true);
   };
 
   const handleChangeSelect = (event: SelectChangeEvent<typeof age>) => {
@@ -53,6 +54,7 @@ export default function DialogComponent({brend, resetBrend, open, setOpen}) {
   async function save(){
     await appsMobx.changeBrend(brend.id, cluster, !checked)
     setOpen(false);
+    setChecked(true)
   }
 
   return (
