@@ -39,86 +39,40 @@ function MainComponent() {
   return (
     <>
 
-      {appsMobx.listTR.length > 0 && appsMobx.listTR.some(el => !el.isDone) &&
-      <>
-        <h3>Трансфер приложения</h3>
-        <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              {/* <StyledTableCell align="left">Название приложения</StyledTableCell> */}
-              <StyledTableCell align="left">ID приложения</StyledTableCell>
-              <StyledTableCell align="left">Данные текущего аккаунта</StyledTableCell>
-              <StyledTableCell align="left"></StyledTableCell>
-              <StyledTableCell align="left">Данные аккаунта трансфера</StyledTableCell>
-              <StyledTableCell align="left">Выполнение</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {appsMobx.listTR.filter(el => !el.isDone).map((row) => (
-              <StyledTableRow key={row.appId}>
-                <StyledTableCell align="left">{row.appId}</StyledTableCell>
-                <StyledTableCell align="left">
-                  <div>{row.createAccountName}</div>
-                  <div>{row.createAccountCompany}</div>
-                  <div>{row.createAccountIdentifier}</div>
-                  <div>{row.createAccountToken}</div>
-                </StyledTableCell>
-                <StyledTableCell align="left"> {`------>>>`} </StyledTableCell>
-                <StyledTableCell align="left">
-                  <div>{row.transferAccountName}</div>
-                  <div>{row.transferAccountCompany}</div>
-                  <div>{row.transferAccountIdentifier}</div>
-                  <div>{row.transferAccountToken}</div>
-                </StyledTableCell>
-                <StyledTableCell align="left"><Button variant="contained" onClick={() => appsMobx.changeTR(row.id)}>Готово</Button></StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-        </TableContainer>
-      </>
-      }
+    
 
+<h3>Первая модерация A.TRUST</h3>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>Название приложения</StyledTableCell>
+            <StyledTableCell align="left">Аккаунт</StyledTableCell>
+            <StyledTableCell align="left">Тип обновления</StyledTableCell>
+            <StyledTableCell align="left">Исходники</StyledTableCell>
+            <StyledTableCell align="left">Комментарий</StyledTableCell>
+            <StyledTableCell align="left">Выполнение</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {appsMobx.listFM.filter(el => !el.isDone).filter(app => {
+            const regex = new RegExp("A.TRUST*");
+            if(regex.test(app.createAccount)) {
+              return true
+            }
+            return false
+          }).map((row) => (
+            <LineComponent row={row} />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
 
+    {!appsMobx.listFM.length && !appsMobx.listRN.length && <Box sx={{ display: 'flex', width: '100%', height: 300, alignItems:'center', justifyContent:'center' }}>
+      <CircularProgress />
+    </Box>}
 
-
-      {appsMobx.listRN.length > 0 && appsMobx.listRN.some(el => !el.isDone) &&
-      <>
-        <h3>Переименование</h3>
-        <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              {/* <StyledTableCell align="left">Название приложения</StyledTableCell> */}
-              <StyledTableCell align="left">ID приложения</StyledTableCell>
-              <StyledTableCell align="left">Новое название</StyledTableCell>
-              <StyledTableCell align="left">Локальные названия</StyledTableCell>
-              <StyledTableCell align="left">Доступные страны</StyledTableCell>
-              <StyledTableCell align="left">Аккаунт</StyledTableCell>
-              <StyledTableCell align="left">Комментарий</StyledTableCell>
-              <StyledTableCell align="left">Выполнение</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {appsMobx.listRN.filter(el => !el.isDone).map((row) => (
-              <StyledTableRow key={row.firstAppName}>
-                <StyledTableCell align="left">{"com." + row.firstAppName.toLowerCase().split(" ").join("")}</StyledTableCell>
-                <StyledTableCell align="left">{row.newAppName}</StyledTableCell>
-                <StyledTableCell align="left">{row.localizations?.map(el => <div>{el}</div>)}</StyledTableCell>
-                <StyledTableCell align="left">{row.countries?.map(el => <div>{el}</div>)}</StyledTableCell>
-                <StyledTableCell align="left">{row.createAccount}</StyledTableCell>
-                <StyledTableCell align="left">{row.message}</StyledTableCell>
-                <StyledTableCell align="left"><Button variant="contained" onClick={() => appsMobx.changeRN(row.id)}>Готово</Button></StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-        </TableContainer>
-      </>
-      }
-
-      <h3>Первая модерация S.FARM</h3>
+    <h3>Первая модерация S.FARM</h3>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
@@ -145,9 +99,38 @@ function MainComponent() {
           </Table>
         </TableContainer>
 
-    {!appsMobx.listFM.length && !appsMobx.listRN.length && <Box sx={{ display: 'flex', width: '100%', height: 300, alignItems:'center', justifyContent:'center' }}>
-      <CircularProgress />
-    </Box>}
+    <h3>Запуск приложения</h3>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>Название приложения</StyledTableCell>
+            <StyledTableCell align="left">Аккаунт Firebase</StyledTableCell>
+            <StyledTableCell align="left">Аккаунт Google</StyledTableCell>
+            <StyledTableCell align="left">Ссылки</StyledTableCell>
+            <StyledTableCell align="left">Выполнение</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {appsMobx.listTO.filter(el => !el.isDone).map((row) => (
+              <StyledTableRow key={row.firstAppName}>
+                <StyledTableCell align="left">
+                  <div><strong>{row.firstAppName}</strong></div>
+                  <div>com.{row.firstAppName.toLowerCase()}</div>
+                </StyledTableCell>
+                <StyledTableCell align="left">{row.firebaseAccount}</StyledTableCell>
+                <StyledTableCell align="left">{row.locationAccount}</StyledTableCell>
+                <StyledTableCell align="left">
+                  <div>aso: {row.trackerLink}</div>
+                  <div>link: {row.trackerLink}</div>
+                  <div>uac: {row.trackerLink}</div>
+                </StyledTableCell>
+                <StyledTableCell align="left"><Button variant="contained" onClick={() => appsMobx.changeTO(row.id)}>Готово</Button></StyledTableCell>
+              </StyledTableRow>
+            ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   </>
   );
 }

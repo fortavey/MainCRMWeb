@@ -2,7 +2,7 @@ import {action, makeObservable, observable} from 'mobx';
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import firebaseConfig from '../firebaseConfig';
-import { collection, getDocs, doc, updateDoc } from "firebase/firestore"; 
+import { collection, getDocs, doc, updateDoc, setDoc } from "firebase/firestore"; 
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -28,6 +28,7 @@ class AppsMobx {
         listASO: observable,
         listTR: observable,
         updateAppList: action,
+        updateBrendsList: action,
         updateFM: action,
         updateRN: action,
         updateTO: action,
@@ -37,7 +38,8 @@ class AppsMobx {
         changeRN: action,
         changeTO: action,
         changeASO: action,
-        changeTR: action
+        changeTR: action,
+        changeBrend: action
     });
   }
 
@@ -173,6 +175,23 @@ class AppsMobx {
     updateDoc(app, { isUAC: true })
       .then(response =>  this.updateAppList())
       .catch(error => console.log(error.message))
+  }
+
+  async changeBrend(id, cluster, isPaused){
+    const brend = doc(db,'brends', id)
+    updateDoc(brend, { limitCounter: cluster,  isPaused: isPaused})
+      .then(response =>  this.updateBrendsList())
+      .catch(error => console.log(error.message))
+  }
+
+  async addBrend(name, cluster){
+    const brendsRef = collection(db, 'brends');
+    const newBrendRef = doc(brendsRef);
+    await setDoc(newBrendRef, {
+      name: name,
+      limitCounter: cluster,
+      isFavorite: true
+    });
   }
 }
 

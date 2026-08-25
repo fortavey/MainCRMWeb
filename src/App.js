@@ -10,6 +10,7 @@ import AppForUac from './components/AppForUac.js';
 import TransfersComponent from './components/TransfersComponent.js';
 import HelpersComponent from './components/HelpersComponent.js';
 import AnaliticsComponent from './components/AnaliticsComponent.js';
+import ClustersComponent from './components/ClustersComponent.js';
 
 function updateList(){
   let timeOutID = setTimeout(() => {
@@ -42,25 +43,25 @@ function App() {
 
   const routing = () => {
     if(isTasks == 'MainComponent') return <MainComponent />
-    if(isTasks == 'MainComponent2') return <MainComponent2 />
+    // if(isTasks == 'MainComponent2') return <MainComponent2 />
     if(isTasks == 'AppListComponent') return <AppListComponent />
     if(isTasks == 'AppForUac') return <AppForUac />
-    // if(isTasks == 'TransfersComponent') return <TransfersComponent />
     if(isTasks == 'HelpersComponent') return <HelpersComponent />
     if(isTasks == 'AnaliticsComponent') return <AnaliticsComponent />
+    if(isTasks == 'ClustersComponent') return <ClustersComponent />
     return <></>
   }
 
   return (
     <div className="App">
       <Stack spacing={2} direction="row">
-        <Button variant="outlined" onClick={() => setIsTasks('MainComponent')}>Задачи Денис</Button>
-        <Button variant="outlined" onClick={() => setIsTasks('MainComponent2')}>Задачи Саша</Button>
+        <Button variant="outlined" onClick={() => setIsTasks('MainComponent')}>Задачи</Button>
+        {/* <Button variant="outlined" onClick={() => setIsTasks('MainComponent2')}>Задачи Саша</Button> */}
         <Button variant="outlined" onClick={() => setIsTasks('AppListComponent')}>Список приложений</Button>
         <Button variant="outlined" onClick={() => setIsTasks('AppForUac')}>Под UAC</Button>
-        {/* <Button variant="outlined" onClick={() => setIsTasks('TransfersComponent')}>Трансферы</Button> */}
         <Button variant="outlined" onClick={() => setIsTasks('HelpersComponent')}>Настройки</Button>
         <Button variant="outlined" onClick={() => setIsTasks('AnaliticsComponent')}>Аналитика</Button>
+        <Button variant="outlined" onClick={() => setIsTasks('ClustersComponent')}>Кластеры</Button>
       </Stack>
       {routing()}
     </div>
