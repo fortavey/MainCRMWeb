@@ -36,19 +36,22 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function MainComponent() {
 
+  const isShowLine = (row) => {
+    if(!row.user) return true
+    if(appsMobx.currentUser.id == row.user) return true
+    return false
+  }
+
   return (
     <>
-
-    
-
 <h3>Первая модерация A.TRUST</h3>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Название приложения</StyledTableCell>
+            <StyledTableCell>В работу</StyledTableCell>
+            <StyledTableCell align="left">Название</StyledTableCell>
             <StyledTableCell align="left">Аккаунт</StyledTableCell>
-            <StyledTableCell align="left">Тип обновления</StyledTableCell>
             <StyledTableCell align="left">Исходники</StyledTableCell>
             <StyledTableCell align="left">Комментарий</StyledTableCell>
             <StyledTableCell align="left">Выполнение</StyledTableCell>
@@ -62,7 +65,7 @@ function MainComponent() {
             }
             return false
           }).map((row) => (
-            <LineComponent row={row} />
+            isShowLine(row) ? <LineComponent row={row} /> : <></>
           ))}
         </TableBody>
       </Table>
@@ -93,7 +96,7 @@ function MainComponent() {
                 }
                 return false
               }).map((row) => (
-                <LineComponent row={row} />
+                isShowLine(row) ? <LineComponent row={row} /> : <></>
               ))}
             </TableBody>
           </Table>
@@ -125,7 +128,10 @@ function MainComponent() {
                   <div>link: {row.trackerLink}</div>
                   <div>uac: {row.trackerLink}</div>
                 </StyledTableCell>
-                <StyledTableCell align="left"><Button variant="contained" onClick={() => appsMobx.changeTO(row.id)}>Готово</Button></StyledTableCell>
+
+                <StyledTableCell align="left">
+                  <Button variant="contained" onClick={() => appsMobx.changeTO(row.id)}>Готово</Button>
+                </StyledTableCell>
               </StyledTableRow>
             ))}
         </TableBody>

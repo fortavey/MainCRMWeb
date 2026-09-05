@@ -65,10 +65,10 @@ function AppForUac() {
             <StyledTableCell>Бренд</StyledTableCell>
             {/* <StyledTableCell align="left">Тип обновления</StyledTableCell>
             <StyledTableCell align="left">Статус обновления</StyledTableCell> */}
-            <StyledTableCell align="left">Трансфер</StyledTableCell>
+            {/* <StyledTableCell align="left">Трансфер</StyledTableCell> */}
             <StyledTableCell align="left">Ссылка</StyledTableCell>
             <StyledTableCell align="left">Firebase</StyledTableCell>
-            <StyledTableCell align="left">Действие</StyledTableCell>
+            {/* <StyledTableCell align="left">Действие</StyledTableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -83,20 +83,20 @@ function AppForUac() {
               <StyledTableCell component="th" scope="row">
                 <strong>{row.newAppName}</strong>
               </StyledTableCell>
-              <StyledTableCell align="left">
+              {/* <StyledTableCell align="left">
                 {row.isTransfer && <img src='https://cdn4.iconfinder.com/data/icons/materia-flat-arrows-symbols-vol-6/24/018_282_ok_done_check_finished-512.png' alt='icon' style={{width:30}} />}
-              </StyledTableCell>
+              </StyledTableCell> */}
                <StyledTableCell align="left">
                 <a href={getPlayStoreLink(row.firstAppName)} target='_blank'>Открыть в GooglePlay</a>
               </StyledTableCell>
               <StyledTableCell align="left" style={{backgroundColor: getColor(row.moderationStatus)}}>
-                {isValidForUAC(row) ? row.transferAccount : ""}
+                {isValidForUAC(row) && row.newAppName !== "Hollywoodbets" ? row.transferAccount : ""}
               </StyledTableCell>
-              <StyledTableCell align="left">
+              {/* <StyledTableCell align="left">
                 {isValidForUAC(row) ? <Button variant="contained" onClick={() => appsMobx.changeIsUac(row.id)}>
                   Забрал под UAC
                 </Button> : ""}
-              </StyledTableCell>
+              </StyledTableCell> */}
             </StyledTableRow>
           ))}
         </TableBody>

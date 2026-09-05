@@ -8,6 +8,12 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 class AppsMobx {
+  snackBar = {
+    text: "Рыба текст",
+    status: "success",
+    open: false
+  }
+  currentUser = "";
   selfList = [];
   appList = [];
   brendsList = [];
@@ -16,9 +22,12 @@ class AppsMobx {
   listTO = [];
   listASO = [];
   listTR = [];
+  usersList = [];
 
   constructor() {
     makeObservable(this, {
+        snackBar: observable,
+        currentUser: observable,
         selfList: observable,
         appList: observable,
         brendsList: observable,
@@ -27,9 +36,13 @@ class AppsMobx {
         listTO: observable,
         listASO: observable,
         listTR: observable,
+        usersList: observable,
+        changeCounter: action,
+        updateCurrentUser: action,
         updateAppList: action,
         updateBrendsList: action,
         updateFM: action,
+        changeFMWork:action,
         updateRN: action,
         updateTO: action,
         updateASO: action,
@@ -39,8 +52,22 @@ class AppsMobx {
         changeTO: action,
         changeASO: action,
         changeTR: action,
-        changeBrend: action
+        changeBrend: action,
+        updateUsersList: action
     });
+  }
+
+  updateCurrentUser(user){
+    this.currentUser = user
+  }
+
+  async updateUsersList(){
+    await getDocs(collection(db, "users"))
+        .then((querySnapshot)=>{               
+            const newData = querySnapshot.docs
+                .map((doc) => ({...doc.data(), id:doc.id }));
+                this.usersList = newData
+        })
   }
 
   async updateSelfList(){
@@ -138,6 +165,32 @@ class AppsMobx {
   async changeFM(id){
     const app = doc(db,'taskfirsmoderation', id)
     updateDoc(app, { isDone: true })
+      .then(response =>  this.updateFM())
+      .catch(error => console.log(error.message))
+  }
+
+  async changeFMWork(id, bool = false){
+    const app = doc(db,'taskfirsmoderation', id)
+    const user = bool ? "" : this.currentUser.id
+    updateDoc(app, { user: user })
+      .then(response =>  this.updateFM())
+      .catch(error => console.log(error.message))
+  }
+
+  async changeCounter(id){
+    const counterRef = collection(db, 'counterfirsmoderation');
+    const newCounterRef = doc(counterRef);
+    await setDoc(newCounterRef, {
+      user: this.currentUser.name,
+      time: Date.now(),
+      appId: id
+    });
+
+  }
+
+  async changeFMFail(id){
+    const app = doc(db,'taskfirsmoderation', id)
+    updateDoc(app, { isDone: true, isFull: true })
       .then(response =>  this.updateFM())
       .catch(error => console.log(error.message))
   }
