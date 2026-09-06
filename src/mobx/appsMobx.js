@@ -14,6 +14,7 @@ class AppsMobx {
     open: false
   }
   currentUser = "";
+  appCounterList = [];
   selfList = [];
   appList = [];
   brendsList = [];
@@ -26,6 +27,7 @@ class AppsMobx {
 
   constructor() {
     makeObservable(this, {
+        appCounterList: observable,
         snackBar: observable,
         currentUser: observable,
         selfList: observable,
@@ -53,12 +55,22 @@ class AppsMobx {
         changeASO: action,
         changeTR: action,
         changeBrend: action,
-        updateUsersList: action
+        updateUsersList: action,
+        updateAppCounterList: action
     });
   }
 
   updateCurrentUser(user){
     this.currentUser = user
+  }
+
+  async updateAppCounterList(){
+    await getDocs(collection(db, "counterfirsmoderation"))
+        .then((querySnapshot)=>{               
+            const newData = querySnapshot.docs
+                .map((doc) => ({...doc.data(), id:doc.id }));
+                this.appCounterList = newData
+        })
   }
 
   async updateUsersList(){

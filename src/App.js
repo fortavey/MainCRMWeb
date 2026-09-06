@@ -23,6 +23,7 @@ function updateList(){
     appsMobx.updateTR()
     appsMobx.updateBrendsList()
     appsMobx.updateUsersList()
+    appsMobx.updateAppCounterList()
     updateList()
     clearTimeout(timeOutID)
   }, 15000)
@@ -44,6 +45,7 @@ function App() {
     appsMobx.updateTR()
     appsMobx.updateBrendsList()
     appsMobx.updateUsersList()
+    appsMobx.updateAppCounterList()
     updateList()
   }, [])
 
@@ -57,6 +59,45 @@ function App() {
     return <></>
   }
 
+  function renderMonthText(index){
+    switch(index){
+      case 0: return "январь"
+      case 1: return "февраль"
+      case 2: return "март"
+      case 3: return "апрель"
+      case 4: return "май"
+      case 5: return "июнь"
+      case 6: return "июль"
+      case 7: return "август"
+      case 8: return "сентябрь"; break;
+      case 9: return "октябрь"
+      case 10: return "ноябрь"
+      case 11: return "декабрь"
+      default: return "месяц"
+    }
+  }
+
+  function getCurrentMonth(){
+    const currentDate = new Date();
+    const currentMonthIndex = currentDate.getMonth(); 
+    return currentMonthIndex;
+  }
+
+  function isDateValide(timestamp){
+    if(new Date(timestamp).getFullYear() == new Date().getFullYear()){
+      if(new Date(timestamp).getMonth() == new Date().getMonth()){
+        return true
+      }
+    }
+    return false
+  }
+
+  function getAppCount(){
+    let appList = appsMobx.appCounterList.filter(app => app.user == appsMobx.currentUser.name)
+    appList = appList.filter(app => isDateValide(app.time) )
+    return appList.length
+  }
+
   return (
     <div className="App">
       <Stack spacing={2} direction="row">
@@ -67,7 +108,12 @@ function App() {
         <Button variant="outlined" onClick={() => setIsTasks('AnaliticsComponent')}>Аналитика</Button>
         <Button variant="outlined" onClick={() => setIsTasks('ClustersComponent')}>Кластеры</Button>
         <Box sx={{ flexGrow: 1 }} />
-        {appsMobx.currentUser ? <>Пользователь, {appsMobx.currentUser.name}</> : <UserComponent />}
+        {appsMobx.currentUser ? (
+          <>
+            Пользователь, {appsMobx.currentUser.name} <br/>
+            Счетчик за {renderMonthText(getCurrentMonth())} - {getAppCount()}
+          </>
+        ) : <UserComponent />}
       </Stack>
       {routing()}
       {appsMobx.snackBar.open && <CustomizedSnackbars />}
