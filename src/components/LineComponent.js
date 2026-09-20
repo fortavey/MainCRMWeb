@@ -33,9 +33,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
     const addToWork = () => {
       const arr = appsMobx.listFM.filter(app => app.user == appsMobx.currentUser.id && !app.isDone)
-      if(arr.length > 10) {
+      if(arr.length > 30) {
         appsMobx.snackBar.open = true
-        appsMobx.snackBar.text = "Нельзя резервировать больше 10 приложений"
+        appsMobx.snackBar.text = "Нельзя резервировать больше 30 приложений"
         appsMobx.snackBar.status = "error"
       }
       else appsMobx.changeFMWork(row.id)
