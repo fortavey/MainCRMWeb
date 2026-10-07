@@ -73,7 +73,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                                       </Button> : <></>
               }
             </StyledTableCell>
-            <StyledTableCell align="left">{row.message}</StyledTableCell>
+            <StyledTableCell align="left"><div style={{width: 300, fontSize: 13}}>{row.message}</div></StyledTableCell>
             <StyledTableCell align="left">
                 {appsMobx.currentUser ? <>
                     <Button variant="contained" onClick={() => {

@@ -3,6 +3,11 @@ import appsMobx from '../mobx/appsMobx';
 import { observer } from 'mobx-react-lite';
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 function HelpersComponent() {
     const [name, setName] = React.useState('Название')
@@ -11,6 +16,8 @@ function HelpersComponent() {
     const [brend, setBrend] = React.useState('')
     const [longString, setLongString] = React.useState('')
     const [output, setOutput] = React.useState([])
+    const [month, setMonth] = React.useState(new Date().getMonth())
+    const id = React.useId();
 
     const getSelfAlias = () => {
         const elements = appsMobx.selfList.filter(el => el.company.includes(name))
@@ -32,69 +39,25 @@ function HelpersComponent() {
     }
 
 
-    const parseApps = () => {
-        const elements = appsMobx.appList.map(app => (
-            {
-                appId: 'com.' + app.firstAppName.toLowerCase(),
-                brend: app.newAppName
-            }
-        ))
 
-        const startArr = longString.split('+++')
-        const defaultArr = startArr.map(el => el.split(';'))
-        let brendsArr = []
-        let brendSortedArr = []
 
-        brendsArr = defaultArr.map(el => {
-            const brend = elements.filter(app => app.appId == el[1])
-            
-            return [el[0], brend[0].brend, el[2]]
-        })
 
-        brendsArr.forEach(item => {
-            const oneItem = brendSortedArr.find(el => el.brend == item[1])
-            if(oneItem) {
-                oneItem.arr.push([item[0], item[2]])
-            }else {
-                brendSortedArr.push({
-                    brend: item[1],
-                    arr: [[item[0], item[2]]]
-                })
-            }
-        })
-
-        brendSortedArr.forEach(el => {
-            el.arr = mergeCountries(el.arr)
-        })
-        
-        setOutput(brendSortedArr)
+    function isDateValide(timestamp){
+        if(new Date(timestamp).getMonth() == month){
+            return true
+        }
+        return false
     }
 
-    const mergeCountries = (arr) => {
-        const newArr = []
-
-        arr.forEach(item => {
-            const itemOfArr = newArr.find(el => el[0] == item[0])
-            if(itemOfArr){
-                const first = itemOfArr[1]
-                const second = item[1].split(",").join("")
-                itemOfArr[1] = parseInt(first) + parseInt(second)
-            }else {
-                newArr.push([item[0], item[1].split(",").join("")])
-            }
-        })
-
-
-        return newArr
+    function getAppCount(name){
+        let appList = appsMobx.appCounterList.filter(app => app.user == name)
+        appList = appList.filter(app => isDateValide(app.time) )
+        return appList.length
     }
 
-    const renderBrend = () => {
-        return output.map(el => <div><strong>{el.brend}</strong><br/>{renderClicks(el.arr)}</div>)
-    }
-
-    const renderClicks = (arr) => {
-        return arr.sort((a, b) => b[1] - a[1]).map(el => <div style={{paddingLeft:20}}>{el[0] + " - " + el[1]}</div>)
-    }
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setMonth(event.target.value);
+    };
 
   return (
     <>
@@ -122,19 +85,28 @@ function HelpersComponent() {
             />
             <Button variant="outlined" onClick={getBrend}>Старт</Button>
         </div>
-        <h3>Парсер приложений кейтары</h3>
-        <div style={styles.div}>
-            <TextField
-            required
-            id="outlined-required"
-            label="Строка из кейтары"
-            defaultValue={longString}
-            value={longString}
-            onChange={(e) => setLongString(e.target.value)}
-            />
-            <Button variant="outlined" onClick={parseApps}>Старт</Button>
-        </div>
-        {renderBrend()}
+        
+        <FormControl>
+        <FormLabel id={`${id}-label`}>Месяц</FormLabel>
+        <RadioGroup row aria-labelledby={`${id}-label`} name="row-radio-buttons-group" value={month}
+        onChange={handleChange}>
+            <FormControlLabel value="0" control={<Radio />} label="Январь" />
+            <FormControlLabel value="1" control={<Radio />} label="Февраль" />
+            <FormControlLabel value="2" control={<Radio />} label="Март" />
+            <FormControlLabel value="3" control={<Radio />} label="Апрель" />
+            <FormControlLabel value="4" control={<Radio />} label="Май" />
+            <FormControlLabel value="5" control={<Radio />} label="Июнь" />
+            <FormControlLabel value="6" control={<Radio />} label="Июль" />
+            <FormControlLabel value="7" control={<Radio />} label="Август" />
+            <FormControlLabel value="8" control={<Radio />} label="Сентябрь" />
+            <FormControlLabel value="9" control={<Radio />} label="Октябрь" />
+            <FormControlLabel value="10" control={<Radio />} label="Ноябрь" />
+            <FormControlLabel value="11" control={<Radio />} label="Декабрь" />
+        </RadioGroup>
+        </FormControl>
+
+        <div>Александр - {getAppCount("Александр")}</div>
+        <div>Наталья - {getAppCount("Наталья")}</div>
     </>
   );
 }
