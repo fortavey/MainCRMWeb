@@ -44,7 +44,15 @@ function AnaliticsComponent() {
         }else {
             return []
         }
-        newArr = newArr.filter(arr => arr.includes(code.toLowerCase()))
+        const now = Date.now() / 1000
+        const monthAgo = now - 30 * 24 * 60 * 60
+        newArr = newArr.filter(arr => {
+            const timestamp = Number(arr[0])
+            return arr[1] === code.toLowerCase()
+                && Number.isFinite(timestamp)
+                && timestamp >= monthAgo
+                && timestamp <= now
+        })
         newArr = newArr.sort((a, b) => a[0] - b[0]).reverse();
 
         return newArr.map(arr => [arr[2], arr[0]])
