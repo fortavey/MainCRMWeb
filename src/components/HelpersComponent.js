@@ -108,6 +108,7 @@ function HelpersComponent() {
         <div>Александр - {getAppCount("Александр")}</div>
         <div>Наталья - {getAppCount("Наталья")}</div>
         <div>Денис - {getAppCount("Денис")}</div>
+        <div>Кристина - {getAppCount("Кристина")}</div>
     </>
   );
 }
