@@ -44,6 +44,33 @@ function MainComponent() {
 
   return (
     <>
+
+    <h3>Первая модерация S.FARM</h3>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Название приложения</StyledTableCell>
+                <StyledTableCell align="left">Аккаунт</StyledTableCell>
+                <StyledTableCell align="left">Тип обновления</StyledTableCell>
+                <StyledTableCell align="left">Исходники</StyledTableCell>
+                <StyledTableCell align="left">Комментарий</StyledTableCell>
+                <StyledTableCell align="left">Выполнение</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {appsMobx.listFM.filter(el => !el.isDone).filter(app => {
+                const regex = new RegExp("S.FARM*");
+                if(regex.test(app.createAccount)) {
+                  return true
+                }
+                return false
+              }).map((row) => (
+                isShowLine(row) ? <LineComponent row={row} /> : <></>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
 <h3>Первая модерация A.TRUST</h3>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -75,32 +102,6 @@ function MainComponent() {
       <CircularProgress />
     </Box>}
 
-    <h3>Первая модерация S.FARM</h3>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>Название приложения</StyledTableCell>
-                <StyledTableCell align="left">Аккаунт</StyledTableCell>
-                <StyledTableCell align="left">Тип обновления</StyledTableCell>
-                <StyledTableCell align="left">Исходники</StyledTableCell>
-                <StyledTableCell align="left">Комментарий</StyledTableCell>
-                <StyledTableCell align="left">Выполнение</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {appsMobx.listFM.filter(el => !el.isDone).filter(app => {
-                const regex = new RegExp("S.FARM*");
-                if(regex.test(app.createAccount)) {
-                  return true
-                }
-                return false
-              }).map((row) => (
-                isShowLine(row) ? <LineComponent row={row} /> : <></>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
 
     <h3>Запуск приложения</h3>
     <TableContainer component={Paper}>
